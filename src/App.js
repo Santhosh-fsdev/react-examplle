@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+// -------- class component example ------------
+
+
+
+
+class App extends React.Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      name: 'hello'
+    }
+    this.submit = this.submit.bind(this);
+
+  };
+
+  submit = () => {
+    console.log('hello world')
+  }
+  render() {
+
+  
+    return (
+      <div className="App">
+        <h1>{this.state.name}</h1>
+        <button onClick={() => this.setState({ name: 'world' })}>click</button>
+      </div>
+    )
+  }
 }
+
+// -----------functional component example -------------
+
+// function App() {
+
+//   const [name,setName] = useState('hello');
+
+//   useEffect(()=>{
+//     console.log('component can be found in the dom')
+//   },[])
+
+//   return (
+//     <div className="App">
+//       <h1>{name}</h1>
+//       <button onClick={()=> setName('world')}>Click</button>
+//     </div>
+
+//   );
+// }
 
 export default App;
