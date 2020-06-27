@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import axios from 'axios';
-import Button from "@material-ui/core/Button";
 import { makeStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import cookie from 'react-cookies';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
     },
 }));
-
 
 const styles = {
     link:{
@@ -34,12 +33,10 @@ function Alert(props) {
 export default function Redirect() {
 
     const classes = useStyles();
+    let history = useHistory();
 
     const [token, setToken] = useState('');
-    const [code, setCode] = useState('');
-    const [res, setRes] = useState('');
     const [load, setLoad] = useState(false);
-    const [got, setGot] = useState(false);
     const [open, setOpen] = React.useState(false);
     const handleClose = () => {
         setOpen(false);
@@ -48,9 +45,7 @@ export default function Redirect() {
     const location = useLocation();
     useEffect(()=>{
         setOpen(true);
-        setTimeout(()=>{
             const code1 = location.search.substr(6);
-
             axios({
                 url: 'http://localhost:8081/getToken?code=' + code1,
                 method: 'get'
@@ -59,12 +54,28 @@ export default function Redirect() {
                     console.log(res.data);
                     console.log(res.data.access_token);
                     setToken(res.data.access_token);
-                    setOpen(false);
+                    cookie.save("Access_token",res.data.access_token);
+
                 })
                 .catch((err) => console.log(err.message))
 
-
+        setTimeout(()=>{
+            const token = cookie.load("Access_token");
+            axios({
+                url:"http://localhost:8081/get/profile",
+                headers: {
+                    "Authorization": 'Bearer ' + token
+                },
+                method:"get"
+            })
+                .then((res)=> {
+                    cookie.save("name",res.data[0].name);
+                    setOpen(false);
+                    history.push("/products");
+                })
+                .catch((err) => console.log(err.message))
         },2000)
+
         },[])
 
 
@@ -80,7 +91,6 @@ export default function Redirect() {
             })
                 .then((res) => {
                     console.log(res.data);
-                    setRes(res.data);
                     setOpen(false);
 
 
@@ -93,31 +103,7 @@ export default function Redirect() {
 
         }, 2000)
     }
-    const writeRequest = () =>{
-        setOpen(true);
-        setTimeout(() => {
-            axios({
-                url: "http://localhost:8081/get/send",
-                headers: {
-                    "Authorization": 'Bearer ' + token
-                },
-                method: 'get'
-            })
-                .then((res) => {
-                    console.log(res.data);
-                    setRes(res.data);
-                    setOpen(false);
 
-
-                })
-                .catch((err) => {
-                    setOpen(false);
-                    setLoad(true);
-                    console.log(err.message)
-                })
-
-        }, 2000)
-    }
 
 
     return (
@@ -133,20 +119,7 @@ export default function Redirect() {
             </Snackbar>
 
             <br/>
-            <h4 style={{marginLeft: "2rem"}}>The access token will be displayed here</h4>
-            <textarea style={styles.token} rows={100} cols={100} value={token}
-                      onChange={(e) => setToken(e.target.value)}></textarea>
-            <br/>
-            <Button style={{margin: '4rem'}} variant="contained" color="primary"
-                    onClick={makeRequest}
-            >Make Read Request</Button>
-            <Button style={{margin: '4rem'}} variant="contained" color="primary"
-                    onClick={writeRequest}
-            >Make Write Request</Button>
-            <h4 style={{marginLeft: "2rem"}}>The Response will be displayed here</h4>
 
-            <textarea style={styles.token} rows={100} cols={100} value={res} readOnly={true}>
-        </textarea>
 
         </div>
     )
