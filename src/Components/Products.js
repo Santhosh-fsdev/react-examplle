@@ -23,92 +23,91 @@ export default function Products() {
     const classes = useStyles();
     const [load, setLoad] = useState(false);
     const [open, setOpen] = React.useState(false);
-    const [name,setName] = useState("");
-    const [products,setProducts] = useState([]);
+    const [name, setName] = useState("");
+    const [products, setProducts] = useState([]);
     const handleClose = () => {
         setOpen(false);
     };
 
 
-    useEffect(()=>{
+    useEffect(() => {
         setOpen(true);
         const token = cookie.load("Access_token")
-            axios({
-                url: "http://localhost:8081/get/send",
-                headers: {
-                    "Authorization": 'Bearer ' + token
-                },
-                method: 'get'
-            })
-                .then((res) => {
-                    console.log(res.data);
-                    setProducts(res.data);
-                    setOpen(false);
-                })
-                .catch((err) => {
-                    setOpen(false);
-                    setLoad(true);
-                    console.log(err.message)
-                })
-
-    },[])
-
-    const cart = (e) =>{
-        const token = cookie.load("Access_token")
-        const username = cookie.load("name");
-        const payload= {
-            name:e,
-            username,
-            count:"1"
-        }
-        console.log(payload);
         axios({
-            url:"http://localhost:8081/addtocart",
+            url: "http://localhost:8081/get/send",
             headers: {
                 "Authorization": 'Bearer ' + token
             },
-            method:"post",
+            method: 'get'
+        })
+            .then((res) => {
+                console.log(res.data);
+                setProducts(res.data);
+                setOpen(false);
+            })
+            .catch((err) => {
+                setOpen(false);
+                setLoad(true);
+                console.log(err.message)
+            })
+
+    }, [])
+
+    const cart = (e) => {
+        const token = cookie.load("Access_token")
+        const username = cookie.load("name");
+        const payload = {
+            name: e,
+            username,
+            count: "1"
+        }
+        console.log(payload);
+        axios({
+            url: "http://localhost:8081/addtocart",
+            headers: {
+                "Authorization": 'Bearer ' + token
+            },
+            method: "post",
             data: payload
         })
-            .then((res)=> window.alert(res.data))
-        .catch((err)=> window.alert(err.message))
+            .then((res) => window.alert(res.data))
+            .catch((err) => window.alert(err.message))
 
     }
-    const order = (product) =>{
+    const order = (product) => {
         const token = cookie.load("Access_token")
         const name = cookie.load("name");
         const payload = {
             username: name,
-            name:product,
-            date:Date.now()
+            name: product,
+            date: Date.now()
         }
         axios({
-            url:"http://localhost:8081/order",
+            url: "http://localhost:8081/order",
             headers: {
                 "Authorization": 'Bearer ' + token
             },
-            data:payload,
-            method:"post"
+            data: payload,
+            method: "post"
         })
-            .then((res) =>
-            {
+            .then((res) => {
                 console.log(res.data);
                 window.alert(res.data);
             })
-            .catch((err)=> {
+            .catch((err) => {
                 console.log(err.message);
                 window.alert(err.message);
             })
     }
 
-    return(
+    return (
         <div>
             <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-                <CircularProgress color="inherit" />
+                <CircularProgress color="inherit"/>
             </Backdrop>
-            <Card style={{margin:"3rem",textAlign:"center",backgroundColor:"honeydew"}}>
+            <Card style={{margin: "3rem", textAlign: "center", backgroundColor: "honeydew"}}>
                 <CardContent>
-                    <Typography  variant="h4" component="h4" color="textSecondary" >
+                    <Typography variant="h4" component="h4" color="textSecondary">
                         Products Page
                     </Typography>
 
@@ -117,26 +116,28 @@ export default function Products() {
                     </Typography>
                 </CardContent>
             </Card>
-            <Grid container spacing={3} style={{textAlign:"center"}}>
+            <Grid container spacing={3} style={{textAlign: "center"}}>
 
-            { products.map((product,index)=>{
-                return <Grid item xs={6} sm={3} key={index}>
-                    <Card elevation={3}>
-                        <CardContent>
-                            <Typography  variant="h4" component="h4">
-                                Name: {product.name}
-                            </Typography>
+                {products.map((product, index) => {
+                    return <Grid item xs={6} sm={3} key={index}>
+                        <Card elevation={3}>
+                            <CardContent>
+                                <Typography variant="h4" component="h4">
+                                    Name: {product.name}
+                                </Typography>
 
-                            <Typography variant="body2" component="p">
-                                Price: {product.price}
-                            </Typography>
-                            <Button style={{margin:"1rem"}} color="primary" variant="contained" onClick={()=> order(product.name)}>Buy</Button>
-                            <Button color="secondary" variant="contained" onClick={()=>cart(product.name)} >Add to Cart</Button>
+                                <Typography variant="body2" component="p">
+                                    Price: {product.price}
+                                </Typography>
+                                <Button style={{margin: "1rem"}} color="primary" variant="contained"
+                                        onClick={() => order(product.name)}>Buy</Button>
+                                <Button color="secondary" variant="contained" onClick={() => cart(product.name)}>Add to
+                                    Cart</Button>
 
-                        </CardContent>
-                    </Card>
-                </Grid>
-            })}
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                })}
             </Grid>
         </div>
     )

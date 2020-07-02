@@ -24,23 +24,23 @@ export default function Profile() {
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [profile,setProfile] = useState([]);
-    const [load,setLoad] = useState(false);
+    const [profile, setProfile] = useState([]);
+    const [load, setLoad] = useState(false);
     const handleClose = () => {
         setOpen(false);
     };
-    useEffect(()=>{
+    useEffect(() => {
         setOpen(true);
         const token = cookie.load("Access_token")
-        setTimeout(()=>{
+        setTimeout(() => {
             axios({
-                url:"http://localhost:8081/get/profile",
+                url: "http://localhost:8081/get/profile",
                 headers: {
                     "Authorization": 'Bearer ' + token
                 },
-                method:"get"
+                method: "get"
             })
-                .then((res)=> {
+                .then((res) => {
                     console.log(res.data);
                     console.log(res.data[0].name)
                     setProfile(res.data[0]);
@@ -48,21 +48,21 @@ export default function Profile() {
                     setOpen(false);
                 })
                 .catch((err) => console.log(err.message))
-        },2000)
-        },[])
+        }, 2000)
+    }, [])
 
 
-    const logout = () =>{
+    const logout = () => {
         cookie.remove("Access_token");
         cookie.remove("name");
         window.location.replace("http://localhost:8080/logout")
     }
-    return(
-        <div style={{margin:"2rem"}}>
+    return (
+        <div style={{margin: "2rem"}}>
 
-            <Card style={{textAlign:"center",backgroundColor:"lightpink"}}>
+            <Card style={{textAlign: "center", backgroundColor: "lightpink"}}>
                 <CardContent>
-                    <Typography  variant="h4" component="h4" color="textSecondary" >
+                    <Typography variant="h4" component="h4" color="textSecondary">
                         Profile Page
                     </Typography>
 
@@ -71,28 +71,29 @@ export default function Profile() {
                     </Typography>
                 </CardContent>
             </Card>
-            <br />
-            <Button style={{float:"right"}} variant="contained" color="secondary" onClick={logout}>Logout</Button>
-            <br />
+            <br/>
+            <Button style={{float: "right"}} variant="contained" color="secondary" onClick={logout}>Logout</Button>
+            <br/>
             <Grid container>
 
-            <Grid item sm={4}>
+                <Grid item sm={4}>
 
 
-            <div>
-                { open && <LinearProgress color="primary" style={{width:"20rem",marginLeft:"2rem"}} />}
-                <br />
-                <h5 style={{fontSize:"1rem"}}>Profile Details</h5>
-                <hr style={{width:"20%",float:"left"}}/>
-                { load && Object.entries(profile).map(([key,value],i) => <div key={i}><br /><p  value={key}> {key} : {value}</p> <br /></div>) }
+                    <div>
+                        {open && <LinearProgress color="primary" style={{width: "20rem", marginLeft: "2rem"}}/>}
+                        <br/>
+                        <h5 style={{fontSize: "1rem"}}>Profile Details</h5>
+                        <hr style={{width: "20%", float: "left"}}/>
+                        {load && Object.entries(profile).map(([key, value], i) => <div key={i}><br/><p
+                            value={key}> {key} : {value}</p> <br/></div>)}
 
-            </div>
-            </Grid>
-                <Grid item sm={3}>
-                    <Cart />
+                    </div>
                 </Grid>
                 <Grid item sm={3}>
-                    <Order />
+                    <Cart/>
+                </Grid>
+                <Grid item sm={3}>
+                    <Order/>
                 </Grid>
 
             </Grid>

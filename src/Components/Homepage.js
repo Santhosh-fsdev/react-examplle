@@ -1,5 +1,5 @@
-import React,{useState,useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState, useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -34,7 +34,6 @@ export default function Homepage() {
     const classes = useStyles();
 
 
-
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -51,14 +50,17 @@ export default function Homepage() {
             <AppBar position="sticky">
                 <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
                         Spring Store
                     </Typography>
-                    <a style={{ textDecoration: "none",color:"#ffffff" }} href="http://localhost:5000/products"> <Button  color="inherit">Products Page</Button> </a>
-                    <a style={{ textDecoration: "none",color:"#ffffff" }} href="http://localhost:5000/vendor"> <Button  color="inherit">Vendor Page</Button> </a>
-                    <a style={{ textDecoration: "none",color:"#ffffff" }} href="http://localhost:5000/profile"> <Button color="inherit">Profile</Button> </a>
+                    <a style={{textDecoration: "none", color: "#ffffff"}} href="http://localhost:5000/products"> <Button
+                        color="inherit">Products Page</Button> </a>
+                    <a style={{textDecoration: "none", color: "#ffffff"}} href="http://localhost:5000/vendor"> <Button
+                        color="inherit">Vendor Page</Button> </a>
+                    <a style={{textDecoration: "none", color: "#ffffff"}} href="http://localhost:5000/profile"> <Button
+                        color="inherit">Profile</Button> </a>
 
                 </Toolbar>
             </AppBar>

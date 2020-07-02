@@ -11,10 +11,10 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
-import { Divider } from '@material-ui/core';
+import {useHistory} from "react-router-dom";
+import {Divider} from '@material-ui/core';
 
 
 function Copyright() {
@@ -33,10 +33,10 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '93vh',
-        width:'99.7vw'
+        width: '99.7vw'
     },
     image: {
-        backgroundImage:'url(https://source.unsplash.com/c9FQyqIECds)',
+        backgroundImage: 'url(https://source.unsplash.com/c9FQyqIECds)',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -66,10 +66,10 @@ export default function Login(props) {
     let history = useHistory();
 
     const classes = useStyles();
-    const [username,setUsername] = useState('');
-    const [password,setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-    const submit = (e) =>{
+    const submit = (e) => {
         e.preventDefault();
         const payload = {
             username,
@@ -77,11 +77,11 @@ export default function Login(props) {
         }
         console.log(payload);
         axios({
-            url:'http://localhost:8080/login',
+            url: 'http://localhost:8080/login',
             method: 'POST',
             data: payload,
         })
-            .then((res)=> {
+            .then((res) => {
                 console.log(res.data);
                 history.push('/main')
 
@@ -91,26 +91,27 @@ export default function Login(props) {
     }
     return (
         <Grid container component="main" className={classes.root}>
-            <CssBaseline />
-            <Grid item xs={false} sm={4} md={7} className={classes.image} />
+            <CssBaseline/>
+            <Grid item xs={false} sm={4} md={7} className={classes.image}/>
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
                     <Typography variant="h4" component="h4">
                         Welcome to Spring Store!!!
                     </Typography>
-                    <br />
-                    <Divider style={{color:"red",width:"100%"}} variant="inset" />
-                    <br />
+                    <br/>
+                    <Divider style={{color: "red", width: "100%"}} variant="inset"/>
+                    <br/>
                     <Typography variant="h6" component="h6">
                         Spring Store is the newest thing coming to the market and you can find cutting edge laptops
                         and mobiles here.
                     </Typography>
-                    <br />
+                    <br/>
                     <Typography variant="h5" component="h5">
                         Login to continue
                     </Typography>
-                    <br />
-                    <a style={{textDecoration:"none",color:"#ffffff" }} href="http://localhost:8080/login"><Button variant="contained" style={{backgroundColor:"green",color:"#ffffff"}}>Login</Button></a>
+                    <br/>
+                    <a style={{textDecoration: "none", color: "#ffffff"}} href="http://localhost:8080/login"><Button
+                        variant="contained" style={{backgroundColor: "green", color: "#ffffff"}}>Login</Button></a>
                 </div>
             </Grid>
         </Grid>
