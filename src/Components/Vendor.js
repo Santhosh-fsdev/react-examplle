@@ -63,6 +63,7 @@ export default function Vendor() {
         })
             .then((res) => {
                 window.alert(res.data);
+                window.location.reload(true);
                 setName("");
                 setItem("");
                 setPrice(0);
@@ -90,10 +91,6 @@ export default function Vendor() {
                 </Card>
                 <br/>
                 <br/>
-                <Button style={{float: "right"}} variant="contained" color="primary">Add Product</Button>
-                <div>
-
-                </div>
                 <br/>
                 <div>
                     <Grid container>

@@ -56,11 +56,9 @@ export default function Redirect() {
                 console.log(res.data.access_token);
                 setToken(res.data.access_token);
                 cookie.save("Access_token", res.data.access_token);
-
             })
             .catch((err) => console.log(err.message))
 
-        setTimeout(() => {
             const token = cookie.load("Access_token");
             axios({
                 url: "http://localhost:8081/get/profile",
@@ -75,7 +73,6 @@ export default function Redirect() {
                     history.push("/products");
                 })
                 .catch((err) => console.log(err.message))
-        }, 2000)
 
     }, [])
 
