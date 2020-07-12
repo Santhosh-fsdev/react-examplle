@@ -48,7 +48,7 @@ export default function Products() {
             .catch((err) => {
                 setOpen(false);
                 setLoad(true);
-                console.log(err.message)
+                window.alert(err.message)
             })
 
     }, [])
@@ -95,7 +95,6 @@ export default function Products() {
                 window.alert(res.data);
             })
             .catch((err) => {
-                console.log(err.message);
                 window.alert(err.message);
             })
     }

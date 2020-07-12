@@ -26,6 +26,7 @@ export default function Cart() {
                 setLoad(false);
                 setOpen(true);
             })
+            .catch((err)=>{ window.alert(err.message)})
     }, [])
     return (
         <div>
@@ -35,7 +36,7 @@ export default function Cart() {
             <hr style={{width: "20%", float: "left"}}/>
             <br/>
             {open && cart.map((value, key) => {
-                return <div key={key}>
+                return <div data-testid="cart" key={key}>
                     <p>{value.name} : {value.count}</p>
                 </div>
             })}

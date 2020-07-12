@@ -48,7 +48,6 @@ export default function Displayitems() {
                 window.location.reload(true);
             })
             .catch((err) => {
-                console.log(err.message);
                 window.alert(err.message);
             })
     }

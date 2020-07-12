@@ -25,6 +25,7 @@ export default function Order() {
                 setLoad(false);
                 setOpen(true);
             })
+            .catch((err) => window.alert(err.message))
 
     }, [])
 

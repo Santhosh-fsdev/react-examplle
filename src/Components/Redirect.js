@@ -43,6 +43,23 @@ export default function Redirect() {
         setOpen(false);
     };
 
+    const getProfile = () =>{
+        const token = cookie.load("Access_token");
+        axios({
+            url: "http://localhost:8081/get/profile",
+            headers: {
+                "Authorization": 'Bearer ' + token
+            },
+            method: "get"
+        })
+            .then((res) => {
+                cookie.save("name", res.data[0].name);
+                setOpen(false);
+                history.push("/products");
+            })
+            .catch((err) => window.alert(err.message))
+    }
+
     const location = useLocation();
     useEffect(() => {
         setOpen(true);
@@ -56,23 +73,9 @@ export default function Redirect() {
                 console.log(res.data.access_token);
                 setToken(res.data.access_token);
                 cookie.save("Access_token", res.data.access_token);
+                getProfile();
             })
-            .catch((err) => console.log(err.message))
-
-            const token = cookie.load("Access_token");
-            axios({
-                url: "http://localhost:8081/get/profile",
-                headers: {
-                    "Authorization": 'Bearer ' + token
-                },
-                method: "get"
-            })
-                .then((res) => {
-                    cookie.save("name", res.data[0].name);
-                    setOpen(false);
-                    history.push("/products");
-                })
-                .catch((err) => console.log(err.message))
+            .catch((err) => window.alert(err.message))
 
     }, [])
 
@@ -96,7 +99,7 @@ export default function Redirect() {
                 .catch((err) => {
                     setOpen(false);
                     setLoad(true);
-
+                    window.alert(err.message)
                 })
 
         }, 2000)
